@@ -4,7 +4,6 @@ param logAnalyticslocation string = 'westeurope'
 param logAnalyticsWorkspaceSku string = 'pergb2018'
 param hostpoolName string
 param workspaceName string
-param logAnalyticsResourceGroup string
 param avdBackplaneResourceGroup string
 
 //Creaye Log Analytics Workspace
@@ -23,11 +22,8 @@ module avdmonitor './1.4.1. avd-monitor-diag.bicep' = {
   name : 'myBicepLADiag'
   scope: resourceGroup(avdBackplaneResourceGroup)
   params: {
-    logAnalyticslocation : logAnalyticslocation
     logAnalyticsWorkspaceID : avdla.id
     hostpoolName : hostpoolName
     workspaceName : workspaceName
   }
 }
-
-
