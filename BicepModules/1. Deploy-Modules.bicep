@@ -93,6 +93,3 @@ module avdFileServices './1.3. avd-fileservices-module.bicep' = {
     fileshareFolderName : fileshareFolderName
   }
 }
-
-
-
