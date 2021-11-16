@@ -62,10 +62,6 @@ module avdmonitor './1.4. avd-LogAnalytics.bicep' = {
     logAnalyticsWorkspaceSku : logAnalyticsWorkspaceSku
     hostpoolName : hp.name
     workspaceName : ws.name
-    logAnalyticsResourceGroup : logAnalyticsResourceGroup
     avdBackplaneResourceGroup : avdBackplaneResourceGroup
   }
 }
-
-  
-  
