@@ -9,7 +9,7 @@ param appgroupNameFriendlyName string = 'My Bicep deployed Appgroup'
 param workspaceName string = 'myBicepWorkspace'
 param workspaceNameFriendlyName string = 'My Bicep deployed Workspace'
 param preferredAppGroupType string = 'Desktop'
-param avdbackplanelocation string = 'norwayeast'
+param avdbackplanelocation string = 'westeurope'
 param hostPoolType string = 'pooled'
 param loadBalancerType string = 'BreadthFirst'
 param logAnalyticsWorkspaceName string = 'tia-avdmonitor-la'
@@ -18,12 +18,12 @@ param logAnalyticsWorkspaceName string = 'tia-avdmonitor-la'
 param vnetName string = 'tia-avddemo-vnet'
 param vnetaddressPrefix string ='10.0.0.0/15'
 param subnetPrefix string = '10.0.1.0/24'
-param vnetLocation string = 'norwayeast'
+param vnetLocation string = 'westeurope'
 param subnetName string = 'hostpool1-subnet'
 
 //Define Azure Files deployment parameters
-param storageAccountlocation string = 'norwayeast'
-param storageAccountName string = 'bicepsa${uniqueString(resourceGroupPrefix)}'
+param storageAccountlocation string = 'westeurope'
+param storageAccountName string = 'bicepsa'
 param storageAccountkind string = 'FileStorage'
 param storageAccountGlobalRedundancy string = 'Standard_LRS'
 param fileshareFolderName string = 'profilecontainers'
@@ -31,19 +31,19 @@ param fileshareFolderName string = 'profilecontainers'
 //Create Resource Groups
 resource rgavd 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name : '${resourceGroupPrefix}-backplane-rg'
-  location : 'norwayeast'
+  location : 'westeurope'
 }
 resource rgnetw 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name : '${resourceGroupPrefix}-network-rg'
-  location : 'norwayeast'
+  location : 'westeurope'
 }
 resource rgfs 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name : '${resourceGroupPrefix}-fileservices-rg'
-  location : 'norwayeast'
+  location : 'westeurope'
 }
 resource rdmon 'Microsoft.Resources/resourceGroups@2020-06-01' = {
   name :'${resourceGroupPrefix}-monitor-rg'
-  location : 'norwayeast'
+  location : 'westeurope'
 }
 
 //Create AVD backplane objects and configure Log Analytics Diagnostics Settings

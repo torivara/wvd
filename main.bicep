@@ -1,3 +1,5 @@
+targetScope = 'subscription'
+
 module avd1 'BicepModules/1. Deploy-Modules.bicep' = {
   name: 'deployAvd1'
   scope: subscription()

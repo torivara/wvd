@@ -3,10 +3,6 @@ param logAnalyticsWorkspaceID string
 param hostpoolName string
 param workspaceName string
 
-//Concat diagnostic setting names
-var hostpoolDiagName = '${hostpoolName}/Microsoft.Insights/hostpool-diag'
-var workspaceDiagName = '${workspaceName}/Microsoft.Insights/workspacepool-diag'
-
 resource hostpool 'Microsoft.DesktopVirtualization/hostPools@2021-09-03-preview' existing = {
   name: hostpoolName
 }
@@ -17,7 +13,7 @@ resource workspace 'Microsoft.DesktopVirtualization/workspaces@2021-09-03-previe
 
 //Create diagnostic settings for AVD Objects
 resource avdhpds 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name : hostpoolDiagName
+  name : 'hostpool-diag'
   scope: hostpool
   properties : {
     workspaceId: logAnalyticsWorkspaceID
@@ -47,7 +43,7 @@ resource avdhpds 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
 }
 
 resource avdwsds 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-  name : workspaceDiagName
+  name : 'workspacepool-diag'
   scope: workspace
   properties : {
     workspaceId: logAnalyticsWorkspaceID
