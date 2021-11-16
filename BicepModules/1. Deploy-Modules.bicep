@@ -25,7 +25,7 @@ param subnetName string = 'hostpool1-subnet'
 param storageAccountlocation string = 'norwayeast'
 param storageAccountName string = 'bicepsa'
 param storageAccountkind string = 'FileStorage'
-param storageAccountGlobalRedundancy string = 'Premium_LRS'
+param storageAccountGlobalRedundancy string = 'Standard_LRS'
 param fileshareFolderName string = 'profilecontainers'
 
 //Create Resource Groups
