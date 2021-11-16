@@ -8,8 +8,8 @@ param workspaceName string
 var hostpoolDiagName = '${hostpoolName}/Microsoft.Insights/hostpool-diag'
 var workspaceDiagName = '${workspaceName}/Microsoft.Insights/workspacepool-diag'
 
-//Create diagnostic settings for WVD Objects
-resource wvdhpds 'Microsoft.DesktopVirtualization/hostpools/providers/diagnosticSettings@2017-05-01-preview' = {
+//Create diagnostic settings for AVD Objects
+resource avdhpds 'Microsoft.DesktopVirtualization/hostpools/providers/diagnosticSettings@2017-05-01-preview' = {
   name : hostpoolDiagName
   location : logAnalyticslocation
   properties : {
@@ -39,7 +39,7 @@ resource wvdhpds 'Microsoft.DesktopVirtualization/hostpools/providers/diagnostic
   }
 }
 
-resource wvdwsds 'Microsoft.DesktopVirtualization/workspaces/providers/diagnosticSettings@2017-05-01-preview' = {
+resource avdwsds 'Microsoft.DesktopVirtualization/workspaces/providers/diagnosticSettings@2017-05-01-preview' = {
   name : workspaceDiagName
   location : logAnalyticslocation
   properties : {

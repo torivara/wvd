@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
-//Define WVD deployment parameters
-param resourceGroupPrefrix string = 'NINJA-WE-P-RG-WVD-BICEP-WVD-'
+//Define AVD deployment parameters
+param resourceGroupPrefrix string = 'tia-avddemo-'
 param hostpoolName string = 'myBicepHostpool'
 param hostpoolFriendlyName string = 'My Bicep deployed Hostpool'
 param appgroupName string = 'myBicepAppGroup'
@@ -9,47 +9,47 @@ param appgroupNameFriendlyName string = 'My Bicep deployed Appgroup'
 param workspaceName string = 'myBicepWorkspace'
 param workspaceNameFriendlyName string = 'My Bicep deployed Workspace'
 param preferredAppGroupType string = 'Desktop'
-param wvdbackplanelocation string = 'eastus'
+param avdbackplanelocation string = 'norwayeast'
 param hostPoolType string = 'pooled'
 param loadBalancerType string = 'BreadthFirst'
-param logAnalyticsWorkspaceName string = 'myNinjaBicepLAWorkspace'
+param logAnalyticsWorkspaceName string = 'tia-avdmonitor-la'
 
 //Define Networking deployment parameters
-param vnetName string = 'bicep-vnet'
+param vnetName string = 'tia-avddemo-vnet'
 param vnetaddressPrefix string ='10.0.0.0/15'
 param subnetPrefix string = '10.0.1.0/24'
-param vnetLocation string = 'westeurope'
-param subnetName string = 'bicep-subnet'
+param vnetLocation string = 'norwayeast'
+param subnetName string = 'hostpool1-subnet'
 
 //Define Azure Files deployment parameters
-param storageaccountlocation string = 'westeurope'
-param storageaccountName string = 'bicepsa'
-param storageaccountkind string = 'FileStorage'
-param storgeaccountglobalRedundancy string = 'Premium_LRS'
+param storageAccountlocation string = 'norwayeast'
+param storageAccountName string = 'bicepsa'
+param storageAccountkind string = 'FileStorage'
+param storageAccountGlobalRedundancy string = 'Premium_LRS'
 param fileshareFolderName string = 'profilecontainers'
 
 //Create Resource Groups
-resource rgwvd 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name : '${resourceGroupPrefrix}BACKPLANE'
-  location : 'westeurope'
+resource rgavd 'Microsoft.Resources/resourceGroups@2020-06-01' = {
+  name : '${resourceGroupPrefrix}backplane-rg'
+  location : 'norwayeast'
 }
 resource rgnetw 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name : '${resourceGroupPrefrix}NETWORK'
-  location : 'westeurope'
+  name : '${resourceGroupPrefrix}network-rg'
+  location : 'norwayeast'
 }
 resource rgfs 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name : '${resourceGroupPrefrix}FILESERVICES'
-  location : 'westeurope'
+  name : '${resourceGroupPrefrix}fileservices-rg'
+  location : 'norwayeast'
 }
 resource rdmon 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name :'${resourceGroupPrefrix}MONITOR'
-  location : 'westeurope'
+  name :'${resourceGroupPrefrix}monitor-rg'
+  location : 'norwayeast'
 }
 
-//Create WVD backplane objects and configure Log Analytics Diagnostics Settings
-module wvdbackplane './1.1 wvd-backplane-module.bicep' = {
-  name: 'wvdbackplane'
-  scope: resourceGroup(rgwvd.name)
+//Create AVD backplane objects and configure Log Analytics Diagnostics Settings
+module avdbackplane './1.1 avd-backplane-module.bicep' = {
+  name: 'avdbackplane'
+  scope: resourceGroup(rgavd.name)
   params: {
     hostpoolName: hostpoolName
     hostpoolFriendlyName: hostpoolFriendlyName
@@ -59,18 +59,18 @@ module wvdbackplane './1.1 wvd-backplane-module.bicep' = {
     workspaceNameFriendlyName: workspaceNameFriendlyName
     preferredAppGroupType: preferredAppGroupType
     applicationgrouptype: preferredAppGroupType
-    wvdbackplanelocation: wvdbackplanelocation
+    avdbackplanelocation: avdbackplanelocation
     hostPoolType: hostPoolType
     loadBalancerType: loadBalancerType
     logAnalyticsWorkspaceName: logAnalyticsWorkspaceName
     logAnalyticsResourceGroup : rdmon.name
-    wvdBackplaneResourceGroup : rgwvd.name
+    avdBackplaneResourceGroup : rgavd.name
   }
 }
 
-//Create WVD Netwerk and Subnet
-module wvdnetwork './1.2. wvd-network-module.bicep' = {
-  name: 'wvdnetwork'
+//Create AVD Netwerk and Subnet
+module avdnetwork './1.2. avd-network-module.bicep' = {
+  name: 'avdnetwork'
   scope: resourceGroup(rgnetw.name)
   params: {
     vnetName : vnetName
@@ -81,15 +81,15 @@ module wvdnetwork './1.2. wvd-network-module.bicep' = {
   }
 }
 
-//Create WVD Azure File Services and FileShare`
-module wvdFileServices './1.3. wvd-fileservices-module.bicep' = {
-  name: 'wvdFileServices'
+//Create AVD Azure File Services and FileShare`
+module avdFileServices './1.3. avd-fileservices-module.bicep' = {
+  name: 'avdFileServices'
   scope: resourceGroup(rgfs.name)
   params: {
-    storageaccountlocation : storageaccountlocation
-    storageaccountName : storageaccountName
-    storageaccountkind : storageaccountkind
-    storgeaccountglobalRedundancy : storgeaccountglobalRedundancy
+    storageAccountlocation : storageAccountlocation
+    storageAccountName : storageAccountName
+    storageAccountKind : storageAccountkind
+    storageAccountGlobalRedundancy : storageAccountGlobalRedundancy
     fileshareFolderName : fileshareFolderName
   }
 }
