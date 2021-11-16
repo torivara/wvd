@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 //Define AVD deployment parameters
-param resourceGroupPrefrix string = 'tia-avddemo-'
+param resourceGroupPrefix string = 'tia-avddemo'
 param hostpoolName string = 'myBicepHostpool'
 param hostpoolFriendlyName string = 'My Bicep deployed Hostpool'
 param appgroupName string = 'myBicepAppGroup'
@@ -23,26 +23,26 @@ param subnetName string = 'hostpool1-subnet'
 
 //Define Azure Files deployment parameters
 param storageAccountlocation string = 'norwayeast'
-param storageAccountName string = 'bicepsa'
+param storageAccountName string = 'bicepsa${uniqueString(resourceGroupPrefix)}'
 param storageAccountkind string = 'FileStorage'
 param storageAccountGlobalRedundancy string = 'Standard_LRS'
 param fileshareFolderName string = 'profilecontainers'
 
 //Create Resource Groups
 resource rgavd 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name : '${resourceGroupPrefrix}backplane-rg'
+  name : '${resourceGroupPrefix}-backplane-rg'
   location : 'norwayeast'
 }
 resource rgnetw 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name : '${resourceGroupPrefrix}network-rg'
+  name : '${resourceGroupPrefix}-network-rg'
   location : 'norwayeast'
 }
 resource rgfs 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name : '${resourceGroupPrefrix}fileservices-rg'
+  name : '${resourceGroupPrefix}-fileservices-rg'
   location : 'norwayeast'
 }
 resource rdmon 'Microsoft.Resources/resourceGroups@2020-06-01' = {
-  name :'${resourceGroupPrefrix}monitor-rg'
+  name :'${resourceGroupPrefix}-monitor-rg'
   location : 'norwayeast'
 }
 
